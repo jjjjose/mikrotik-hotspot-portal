@@ -3,6 +3,24 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/com
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { ExternalLink, Earth, LockKeyhole, Signal, Github } from 'lucide-vue-next'
+import useRouterOsData from '@/composables/router-os-data.ts'
+// @ts-ignore
+import { hexMD5 } from '@/utils/md5'
+import { ref } from 'vue'
+
+
+const { chapId, chapChallenge, linkLoginOnly, linkOrig } = useRouterOsData()
+
+
+const pin = ref('')
+
+const login = async () => {
+
+  const passMd5 = hexMD5(chapId.value + pin.value + chapChallenge.value)
+
+  window.location.href = `${linkLoginOnly.value}?username=${pin.value}&password=${passMd5}&dst=${linkOrig.value}&popup=false`
+
+}
 
 const openWP = () => {
   window.open('https://wa.me/59168093780', '_blank')
@@ -55,7 +73,7 @@ const openWP = () => {
             required
           />
         </div>
-        <Button className="w-full bg-indigo-600 hover:bg-indigo-500 text-indigo-100 py-2 rounded-3xl mt-5">
+        <Button class="w-full bg-indigo-600 hover:bg-indigo-500 text-indigo-100 py-2 rounded-3xl mt-5" @click="login">
           Conectar
         </Button>
         <!--        </form>-->
