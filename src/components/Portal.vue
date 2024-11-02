@@ -16,8 +16,8 @@ const pin = ref('')
 
 const login = async () => {
 
-  const passMd5 = hexMD5(chapId.value + pin.value + chapChallenge.value)
-
+  // const passMd5 = hexMD5(chapId.value + pin.value + chapChallenge.value)
+  const passMd5 = hexMD5(chapId.value + '' + chapChallenge.value)
   window.location.href = `${linkLoginOnly.value}?username=${pin.value}&password=${passMd5}&dst=${linkOrig.value}&popup=false`
 
 }
@@ -66,7 +66,7 @@ const openWP = () => {
           <!--            PIN / Código de Acceso-->
           <!--          </Label>-->
           <Input
-            id="pin"
+            v-model="pin"
             placeholder="Ingrese su PIN o código"
             type="text"
             class="bg-gray-800 border-indigo-700 placeholder-indigo-500 text-indigo-100 rounded-3xl"
@@ -195,6 +195,8 @@ const openWP = () => {
 
 <style scoped>
 .h-full-screen {
-  height: calc(var(--vh, 1vh) * 100);
+  //height: calc(var(--vh, 1vh) * 100);
+  min-height: calc(var(--vh, 1vh) * 100);
+
 }
 </style>

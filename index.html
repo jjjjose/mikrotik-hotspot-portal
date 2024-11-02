@@ -1,25 +1,57 @@
 <!doctype html>
 <html lang="es">
 <head>
-    <meta http-equiv="pragma" content="no-cache"/>
-    <meta http-equiv="expires" content="-1"/>
-    <meta charset="UTF-8"/>
-    <link rel="icon" type="image/svg+xml" href="/vite.svg"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Hotspot Portal</title>
-    <script>
-        const dataRouterOS = {
-            chapId: '$(chap-id)',
-            chapSecret: '$(chap-secret)',
-            ip: '$(ip)',
-            chapChallenge: '$(chap-challenge)',
-            linkLoginOnly: '$(link-login-only)',
-            linkOrig: '$(link-orig)',
-        };
+  <meta http-equiv="pragma" content="no-cache" />
+  <meta http-equiv="expires" content="-1" />
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hotspot Portal</title>
+  <script>
+    // capturamos los datos de get y decodificamos
+    // ?chap-id=$(chap-id)&chap-secret=$(chap-secret)&ip=$(ip)&chap-challenge=$(chap-challenge)&link-login-only=$(link-login-only)&link-orig=$(link-orig)"
+    // const dataRouterOS = {
+    //   chapId: new URLSearchParams(window.location.search).get('chap-id'),
+    //   chapSecret: new URLSearchParams(window.location.search).get('chap-secret'),
+    //   ip: new URLSearchParams(window.location.search).get('ip'),
+    //   chapChallenge: new URLSearchParams(window.location.search).get('chap-challenge'),
+    //   linkLoginOnly: new URLSearchParams(window.location.search).get('link-login-only'),
+    //   linkOrig: new URLSearchParams(window.location.search).get('link-orig'),
+    //
+    // }
 
-        localStorage.setItem('dataRouterOS', JSON.stringify(dataRouterOS));
+    // const dataRouterOS = {
+    //     chapId: '$(chap-id)',
+    //     chapSecret: '$(chap-secret)',
+    //     ip: '$(ip)',
+    //     chapChallenge: '$(chap-challenge)',
+    //     linkLoginOnly: '$(link-login-only)',
+    //     linkOrig: '$(link-orig)',
+    // };
 
-    </script>
+    // localStorage.setItem('dataRouterOS', JSON.stringify(dataRouterOS))
+
+    // Obtener los parámetros de la URL
+    const urlParams = new URLSearchParams(window.location.search)
+
+    // Leer y decodificar los datos
+    const dataRouterOS = {
+      chapId: decodeURIComponent(urlParams.get('chapId') || ''),
+      chapSecret: decodeURIComponent(urlParams.get('chapSecret') || ''),
+      ip: decodeURIComponent(urlParams.get('ip') || ''),
+      chapChallenge: decodeURIComponent(urlParams.get('chapChallenge') || ''),
+      linkLoginOnly: decodeURIComponent(urlParams.get('linkLoginOnly') || ''),
+      linkOrig: decodeURIComponent(urlParams.get('linkOrig') || ''),
+    }
+
+    // // Guardar los datos en localStorage
+    // for (const [key, value] of Object.entries(dataRouterOS)) {
+    //   localStorage.setItem(key, value)
+    // }
+
+    localStorage.setItem('dataRouterOS', JSON.stringify(dataRouterOS))
+
+  </script>
 </head>
 <body>
 

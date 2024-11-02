@@ -1,0 +1,22 @@
+<html>
+<head>
+  <meta http-equiv="refresh"
+<!--        content="0; url=/index.html?chap-id=$(chap-id)&chap-secret=$(chap-secret)&ip=$(ip)&chap-challenge=$(chap-challenge)&link-login-only=$(link-login-only)&link-orig=$(link-orig)">-->
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="expires" content="-1">
+  <script>
+    // armamos lso datos para mandarlos por get
+    const dataRouterOS = {
+      chapId: encodeURIComponent('$(chap-id)'),
+      chapSecret: encodeURIComponent('$(chap-secret)'),
+      ip: encodeURIComponent('$(ip)'),
+      chapChallenge: encodeURIComponent('$(chap-challenge)'),
+      linkLoginOnly: encodeURIComponent('$(link-login-only)'),
+      linkOrig: encodeURIComponent('$(link-orig)'),
+    }
+    // codificamos los datos y enviamos a index.html
+    const params = new URLSearchParams(dataRouterOS).toString()
+    window.location.href = `/index.html?${params}`
+  </script>
+</head>
+</html>
