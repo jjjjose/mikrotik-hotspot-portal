@@ -1,5 +1,5 @@
 const routes = [
-  { path: '/', component: import('../components/HelloWorld.vue') },
+  { path: '/', component: import('../components/Portal.vue') },
 ]
 
 export default routes
