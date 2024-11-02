@@ -1,8 +1,9 @@
 import { createApp } from 'vue'
-import './style.css'
+import './assets/index.css'
 import App from './App.vue'
 import useRouterOsData from './composables/router-os-data'
 import router from './routes'
+
 const { saveData } = useRouterOsData()
 
 saveData()
