@@ -221,7 +221,7 @@ onMounted(() => {
           />
         </svg>
         Contáctanos al
-        <span class="font-bold pulse-highlight">68093780</span>
+        <span class="font-bold pulse-highlight">77773607</span>
       </div>
     </div>
 
