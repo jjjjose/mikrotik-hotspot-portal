@@ -32,7 +32,8 @@ const themes: Record<string, any> = {
     focus: 'focus:border-purple-500 focus:ring-purple-300',
     text: 'text-purple-700',
     glow: 'rgba(139, 92, 246, 0.3)',
-    button: 'from-purple-500 to-indigo-700 hover:from-purple-600 hover:to-indigo-800',
+    button:
+      'from-purple-500 to-indigo-700 hover:from-purple-600 hover:to-indigo-800',
     progressBar: ['bg-purple-300', 'bg-purple-400', 'bg-purple-500'],
   },
   teal: {
@@ -44,7 +45,8 @@ const themes: Record<string, any> = {
     focus: 'focus:border-teal-500 focus:ring-teal-300',
     text: 'text-teal-700',
     glow: 'rgba(20, 184, 166, 0.3)',
-    button: 'from-teal-500 to-emerald-700 hover:from-teal-600 hover:to-emerald-800',
+    button:
+      'from-teal-500 to-emerald-700 hover:from-teal-600 hover:to-emerald-800',
     progressBar: ['bg-teal-300', 'bg-teal-400', 'bg-teal-500'],
   },
   amber: {
@@ -56,7 +58,8 @@ const themes: Record<string, any> = {
     focus: 'focus:border-amber-500 focus:ring-amber-300',
     text: 'text-amber-700',
     glow: 'rgba(251, 191, 36, 0.3)',
-    button: 'from-orange-500 to-amber-700 hover:from-orange-600 hover:to-amber-800',
+    button:
+      'from-orange-500 to-amber-700 hover:from-orange-600 hover:to-amber-800',
     progressBar: ['bg-amber-300', 'bg-amber-400', 'bg-amber-500'],
   },
 }
@@ -86,7 +89,10 @@ const changeTheme = (newTheme: string) => {
   currentTheme.value = newTheme
 
   // Actualiza las variables CSS según el tema seleccionado
-  document.documentElement.style.setProperty('--bg-overlay-color', getOverlayColor(newTheme))
+  document.documentElement.style.setProperty(
+    '--bg-overlay-color',
+    getOverlayColor(newTheme),
+  )
 }
 
 // Función para determinar el color de superposición del fondo
@@ -144,7 +150,10 @@ onMounted(() => {
   }, 100)
 
   // Establece el color de superposición inicial
-  document.documentElement.style.setProperty('--bg-overlay-color', getOverlayColor(currentTheme.value))
+  document.documentElement.style.setProperty(
+    '--bg-overlay-color',
+    getOverlayColor(currentTheme.value),
+  )
 })
 </script>
 
@@ -161,7 +170,11 @@ onMounted(() => {
         :key="themeName"
         @click="changeTheme(themeName)"
         class="w-6 h-6 rounded-full transition-transform hover:scale-110 shadow-lg border border-white/30 flex-shrink-0"
-        :class="currentTheme === themeName ? 'ring-2 ring-white ring-offset-2 ring-offset-black/20' : ''"
+        :class="
+          currentTheme === themeName
+            ? 'ring-2 ring-white ring-offset-2 ring-offset-black/20'
+            : ''
+        "
         :style="`background: linear-gradient(to right, ${colors.start}, ${colors.end});`"
         aria-label="Cambiar tema"
       ></button>
@@ -195,12 +208,18 @@ onMounted(() => {
 
       <h1
         class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r mb-0 -mt-4 tracking-wide drop-shadow-sm animate-text"
-        :class="theme.accent">
-        AirConexion</h1>
-      <p :class="`${theme.text} mb-4 text-center text-xs type-animation`">Internet Inalámbrico de alta velocidad</p>
+        :class="theme.accent"
+      >
+        AirConexion
+      </h1>
+      <p :class="`${theme.text} mb-4 text-center text-xs type-animation`">
+        Internet Inalámbrico de alta velocidad
+      </p>
 
       <form @submit.prevent="connect" class="w-full space-y-4">
-        <div class="relative transform transition-all duration-300 hover:scale-102">
+        <div
+          class="relative transform transition-all duration-300 hover:scale-102"
+        >
           <input
             id="pin"
             v-model="pin"
@@ -219,46 +238,95 @@ onMounted(() => {
         <button
           type="submit"
           class="w-full bg-gradient-to-r text-white font-medium py-3 px-4 rounded-lg transition duration-300 shadow-lg hover:shadow-xl flex items-center justify-center mt-4 overflow-hidden relative button-animated"
-          :class="showSuccess ? 'from-emerald-500 to-emerald-700' : theme.button"
+          :class="
+            showSuccess ? 'from-emerald-500 to-emerald-700' : theme.button
+          "
           :disabled="isLoading || showSuccess"
         >
           <span v-if="isLoading" class="flex items-center">
-            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
-                 viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            <svg
+              class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
             </svg>
             Conectando...
           </span>
           <span v-else-if="showSuccess" class="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
-                 stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              />
             </svg>
             ¡Conectado!
           </span>
           <span v-else class="flex items-center">
             Conectar
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 animate-bounce-x" fill="none"
-                 viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 ml-2 animate-bounce-x"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M14 5l7 7m0 0l-7 7m7-7H3"
+              />
             </svg>
           </span>
         </button>
       </form>
 
-      <div class="mt-4 text-center text-xs text-gray-600 border-t border-gray-100/30 pt-3 w-full">
-        <p>Al conectarte aceptas nuestros <a href="#"
-                                             :class="`${theme.text} hover:underline font-medium transition-colors`">Términos
-          y Condiciones</a></p>
+      <div
+        class="mt-4 text-center text-xs text-gray-600 border-t border-gray-100/30 pt-3 w-full"
+      >
+        <p>
+          Al conectarte aceptas nuestros
+          <a
+            href="#"
+            :class="`${theme.text} hover:underline font-medium transition-colors`"
+            >Términos y Condiciones</a
+          >
+        </p>
       </div>
 
       <!-- Indicador de señal WiFi con animación -->
       <div class="absolute bottom-2 right-2 flex space-x-1">
-        <div :class="`w-1 h-3 ${theme.progressBar[0]} rounded-sm wifi-bar`"></div>
-        <div :class="`w-1 h-5 ${theme.progressBar[1]} rounded-sm wifi-bar`"></div>
-        <div :class="`w-1 h-7 ${theme.progressBar[2]} rounded-sm wifi-bar`"></div>
+        <div
+          :class="`w-1 h-3 ${theme.progressBar[0]} rounded-sm wifi-bar`"
+        ></div>
+        <div
+          :class="`w-1 h-5 ${theme.progressBar[1]} rounded-sm wifi-bar`"
+        ></div>
+        <div
+          :class="`w-1 h-7 ${theme.progressBar[2]} rounded-sm wifi-bar`"
+        ></div>
       </div>
     </div>
   </div>
@@ -277,7 +345,8 @@ onMounted(() => {
 }
 
 @keyframes pulse-subtle {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
@@ -288,7 +357,8 @@ onMounted(() => {
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -306,7 +376,8 @@ onMounted(() => {
 }
 
 @keyframes pulse-soft {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 0.9;
   }
@@ -317,7 +388,8 @@ onMounted(() => {
 }
 
 @keyframes bounce-x {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(0);
   }
   50% {
@@ -327,15 +399,16 @@ onMounted(() => {
 
 @keyframes typing {
   from {
-    width: 0
+    width: 0;
   }
   to {
-    width: 100%
+    width: 100%;
   }
 }
 
 @keyframes wifi-pulse {
-  0%, 100% {
+  0%,
+  100% {
     height: 100%;
     opacity: 1;
   }
@@ -357,7 +430,8 @@ onMounted(() => {
     opacity: 1;
   }
   100% {
-    transform: translateY(-100vh) translateX(calc(var(--x-offset) * 50px)) rotate(calc(var(--rotation) * 360deg));
+    transform: translateY(-100vh) translateX(calc(var(--x-offset) * 50px))
+      rotate(calc(var(--rotation) * 360deg));
     opacity: 0;
   }
 }
@@ -437,7 +511,7 @@ form {
 }
 
 .success-button {
-  background: linear-gradient(to right, #10B981, #059669);
+  background: linear-gradient(to right, #10b981, #059669);
   transform: scale(1.03);
 }
 
@@ -453,7 +527,11 @@ form {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0) 70%);
+  background: radial-gradient(
+    circle,
+    rgba(59, 130, 246, 0.3) 0%,
+    rgba(59, 130, 246, 0) 70%
+  );
   z-index: -1;
   animation: pulse-subtle 4s infinite ease-in-out;
   opacity: 0.7;
@@ -465,7 +543,7 @@ form {
 }
 
 .input-shine:focus::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: -100%;
@@ -551,7 +629,7 @@ form {
 
 .particles-container .particle:nth-child(6) {
   --x-pos: 60;
-  --duration: 1.0;
+  --duration: 1;
   --delay: 0.6;
 }
 
@@ -576,7 +654,7 @@ form {
 .particles-container .particle:nth-child(10) {
   --x-pos: 15;
   --duration: 0.8;
-  --delay: 1.0;
+  --delay: 1;
 }
 
 .particles-container .particle:nth-child(11) {
@@ -611,7 +689,7 @@ form {
 
 .particles-container .particle:nth-child(16) {
   --x-pos: 75;
-  --duration: 1.0;
+  --duration: 1;
   --delay: 1.6;
 }
 
@@ -636,7 +714,7 @@ form {
 .particles-container .particle:nth-child(20) {
   --x-pos: 42;
   --duration: 0.8;
-  --delay: 2.0;
+  --delay: 2;
   --x-offset: 1;
   --rotation: 1;
 }
@@ -647,13 +725,17 @@ button:disabled {
 }
 
 button:not(:disabled):hover::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 50%;
   left: 50%;
   width: 120%;
   height: 120%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 70%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
   transform: translate(-50%, -50%);
 }
 
@@ -663,16 +745,16 @@ button:not(:disabled):hover::after {
 }
 
 /* Mejora de estilos para los botones de tema */
-button[aria-label="Cambiar tema"] {
+button[aria-label='Cambiar tema'] {
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-button[aria-label="Cambiar tema"]:hover {
+button[aria-label='Cambiar tema']:hover {
   transform: scale(1.1);
 }
 
-button[aria-label="Cambiar tema"]:active {
+button[aria-label='Cambiar tema']:active {
   transform: scale(0.95);
 }
 </style>
