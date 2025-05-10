@@ -62,19 +62,22 @@ const connect = async () => {
     </p>
 
     <form @submit.prevent="connect" class="w-full space-y-4">
+      <pre>
+        {{ chapId }}
+        {{ chapChallenge }}
+        {{ linkLoginOnly }}
+        {{ linkOrig }}
+      </pre>
       <div
         class="relative transform transition-all duration-300 hover:scale-102"
       >
         <input
           id="pin"
           v-model="pin"
-          type="tel"
-          inputmode="numeric"
           placeholder="Ingrese su PIN"
           class="w-full px-4 py-3.5 rounded-lg border-2 shadow-inner transition text-center text-xl tracking-widest input-shine bg-white/90 text-gray-900 placeholder-gray-400"
           :class="`${theme.border} ${theme.focus} pin-input`"
           required
-          maxlength="6"
           autocomplete="off"
         />
         <div class="pin-input-highlight" :class="theme.accent"></div>
