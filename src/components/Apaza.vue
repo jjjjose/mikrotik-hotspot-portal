@@ -58,7 +58,7 @@ const connect = (pinValue: string) => {
 }
 
 // Generar partículas aleatorias
-type Particle = {
+interface ParticleProps {
   xPos: number
   duration: number
   delay: number
@@ -67,19 +67,24 @@ type Particle = {
   size: number
   opacity: number
 }
+
 function random(min: number, max: number) {
   return Math.random() * (max - min) + min
 }
+
 const PARTICLE_COUNT = 30
-const particles = Array.from({ length: PARTICLE_COUNT }, () => ({
-  xPos: random(0, 100),
-  duration: random(0.5, 1.5),
-  delay: random(0, 2),
-  xOffset: random(-2, 2),
-  rotation: random(0, 1),
-  size: random(4, 10),
-  opacity: random(0.2, 0.4),
-}))
+const particles = Array.from(
+  { length: PARTICLE_COUNT },
+  (): ParticleProps => ({
+    xPos: random(0, 100),
+    duration: random(0.5, 1.5),
+    delay: random(0, 2),
+    xOffset: random(-2, 2),
+    rotation: random(0, 1),
+    size: random(4, 10),
+    opacity: random(0.2, 0.4),
+  }),
+)
 
 onMounted(() => {
   setTimeout(() => {

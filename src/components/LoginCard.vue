@@ -1,36 +1,30 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ThemeKey, type ThemeProperties } from './themes.ts'
+import { ref } from 'vue'
+// @ts-ignore
+import { hexMD5 } from '@/utils/md5'
+import useRouterOsData from '@/composables/router-os-data.ts'
 
-const props = defineProps({
-  theme: Object,
-  logo: String,
-  logoFilterStyle: String,
-  glowStyle: String,
-  isVisible: { type: Boolean, default: false },
-  showSuccess: { type: Boolean, default: false },
-  isLoading: { type: Boolean, default: false },
-  currentThemeName: { type: String, default: 'blue' },
-})
+defineProps<{
+  theme: ThemeProperties
+  logo: string
+  logoFilterStyle: string
+  glowStyle: string
+  isVisible: boolean
+  showSuccess: boolean
+  isLoading: boolean
+  currentThemeName: ThemeKey
+}>()
 
-const emit = defineEmits(['connect'])
 const pin = ref('')
 
-const connect = () => {
-  if (pin.value) emit('connect', pin.value)
-}
+const { chapId, chapChallenge, linkLoginOnly, linkOrig } = useRouterOsData()
 
-// Get theme name for display
-const themeDisplayName = computed(() => {
-  const names = {
-    blue: 'Azul',
-    purple: 'Púrpura',
-    teal: 'Turquesa',
-    amber: 'Ámbar',
-    green: 'Verde',
-    pink: 'Rosa',
-  }
-  return names[props.currentThemeName] || props.currentThemeName
-})
+const connect = async () => {
+  // const passMd5 = hexMD5(chapId.value + pin.value + chapChallenge.value)
+  const passMd5 = hexMD5(chapId.value + '' + chapChallenge.value)
+  window.location.href = `${linkLoginOnly.value}?username=${pin.value}&password=${passMd5}&dst=${linkOrig.value}&popup=false`
+}
 </script>
 
 <template>
@@ -76,7 +70,6 @@ const themeDisplayName = computed(() => {
           v-model="pin"
           type="tel"
           inputmode="numeric"
-          pattern="[0-9]*"
           placeholder="Ingrese su PIN"
           class="w-full px-4 py-3.5 rounded-lg border-2 shadow-inner transition text-center text-xl tracking-widest input-shine bg-white/90 text-gray-900 placeholder-gray-400"
           :class="`${theme.border} ${theme.focus} pin-input`"

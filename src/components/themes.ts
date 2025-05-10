@@ -1,4 +1,18 @@
-export const themes = {
+// Define interfaces for better type safety
+export interface ThemeProperties {
+  primary: string
+  secondary: string
+  accent: string
+  bg: string
+  border: string
+  focus: string
+  text: string
+  glow: string
+  button: string
+  progressBar: string[]
+}
+
+export const themes: Record<string, ThemeProperties> = {
   blue: {
     primary: 'from-blue-500 to-blue-700',
     secondary: 'from-blue-400 via-blue-600 to-blue-400',
@@ -78,7 +92,9 @@ export const themes = {
   },
 }
 
-export const logoFilters: Record<string, string> = {
+export type ThemeKey = keyof typeof themes
+
+export const logoFilters: Record<ThemeKey, string> = {
   purple:
     'brightness(0) invert(35%) sepia(25%) saturate(2000%) hue-rotate(240deg) brightness(100%) contrast(95%)',
   teal: 'brightness(0) invert(50%) sepia(80%) saturate(400%) hue-rotate(130deg) brightness(90%) contrast(95%)',
@@ -90,7 +106,7 @@ export const logoFilters: Record<string, string> = {
   blue: 'brightness(0) invert(50%) sepia(100%) saturate(1000%) hue-rotate(200deg) brightness(90%) contrast(95%)',
 }
 
-export const overlayColors: Record<string, string> = {
+export const overlayColors: Record<ThemeKey, string> = {
   purple: 'rgba(45, 27, 105, 0.7)',
   teal: 'rgba(15, 61, 64, 0.7)',
   amber: 'rgba(66, 32, 6, 0.7)',
