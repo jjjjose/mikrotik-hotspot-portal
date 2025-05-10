@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ThemeKey, type ThemeProperties } from './themes.ts'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 // @ts-ignore
 import { hexMD5 } from '@/utils/md5'
 import useRouterOsData from '@/composables/router-os-data.ts'
@@ -17,14 +17,32 @@ defineProps<{
 }>()
 
 const pin = ref('')
+const showErrorToast = ref(false)
+const errorMessage = ref('')
 
-const { chapId, chapChallenge, linkLoginOnly, linkOrig } = useRouterOsData()
+const { chapId, chapChallenge, linkLoginOnly, linkOrig, error } =
+  useRouterOsData()
 
 const connect = async () => {
   // Generate MD5 hash properly based on MikroTik's CHAP authentication
   const passMd5 = hexMD5(chapId.value + pin.value + chapChallenge.value)
   window.location.href = `${linkLoginOnly.value}?username=${pin.value}&password=${passMd5}&dst=${linkOrig.value}&popup=false`
 }
+
+const closeErrorToast = () => {
+  showErrorToast.value = false
+}
+onMounted(() => {
+  if (error?.value) {
+    errorMessage.value = error.value
+    showErrorToast.value = true
+
+    // Auto-hide toast after 5 seconds
+    setTimeout(() => {
+      showErrorToast.value = false
+    }, 5000)
+  }
+})
 </script>
 
 <template>
@@ -32,6 +50,45 @@ const connect = async () => {
     class="w-full max-w-xs flex flex-col items-center bg-white/85 rounded-2xl p-6 shadow-2xl backdrop-blur-lg relative overflow-hidden transition-all duration-500 transform"
     :class="isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'"
   >
+    <!-- Error Toast Notification - Modified position and transitions -->
+    <div
+      v-if="showErrorToast"
+      class="fixed top-6 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-6 py-4 rounded-lg shadow-2xl z-50 max-w-xs w-full flex items-center justify-between error-toast"
+    >
+      <div class="flex items-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 mr-2"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <span>{{ errorMessage || 'Error al conectarse' }}</span>
+      </div>
+      <button
+        @click="closeErrorToast"
+        class="ml-2 text-white hover:text-gray-200 focus:outline-none"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
+    </div>
+
     <!-- Decoración superior -->
     <div
       class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r shine-animation"
@@ -202,6 +259,30 @@ const connect = async () => {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Updated animation for toast sliding from top */
+@keyframes slideInFromTop {
+  from {
+    transform: translate(-50%, -20px);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+/* New animation for toast fading out */
+@keyframes fadeOutSmoothly {
+  from {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -10px);
   }
 }
 
@@ -439,6 +520,17 @@ button:not(:disabled):hover::after {
 .pin-input:focus + .pin-input-highlight {
   transform: translateX(-50%) scaleX(1);
   opacity: 1;
+}
+
+.error-toast {
+  animation: slideInFromTop 0.5s ease forwards;
+  box-shadow: 0 10px 25px -5px rgba(220, 38, 38, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.error-toast.v-leave-active {
+  animation: fadeOutSmoothly 0.7s ease forwards;
 }
 
 @media (max-width: 370px) {
