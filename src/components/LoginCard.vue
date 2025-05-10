@@ -62,12 +62,6 @@ const connect = async () => {
     </p>
 
     <form @submit.prevent="connect" class="w-full space-y-4">
-      <pre>
-        {{ chapId }}
-        {{ chapChallenge }}
-        {{ linkLoginOnly }}
-        {{ linkOrig }}
-      </pre>
       <div
         class="relative transform transition-all duration-300 hover:scale-102"
       >
