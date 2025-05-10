@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue'
-import Portal from '@/components/Portal.vue'
+
+// import Portal from '@/components/Portal.vue'
 
 
 function setViewportHeight() {
@@ -21,6 +22,6 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <Portal />
-  <!--  <RouterView />-->
+  <!--  <Portal />-->
+  <RouterView />
 </template>
