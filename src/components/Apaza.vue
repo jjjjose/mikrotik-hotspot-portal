@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BackgroundImg2 from '@/assets/img/fondo2.jpeg'
+import BackgroundImg2 from '@/assets/img/fondo_lite.jpeg'
 import Logo from '@/assets/img/air.png'
 import LoginCard from './LoginCard.vue'
 import { ref, onMounted, computed } from 'vue'

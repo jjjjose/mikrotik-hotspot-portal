@@ -21,8 +21,8 @@ const pin = ref('')
 const { chapId, chapChallenge, linkLoginOnly, linkOrig } = useRouterOsData()
 
 const connect = async () => {
-  // const passMd5 = hexMD5(chapId.value + pin.value + chapChallenge.value)
-  const passMd5 = hexMD5(chapId.value + '' + chapChallenge.value)
+  // Generate MD5 hash properly based on MikroTik's CHAP authentication
+  const passMd5 = hexMD5(chapId.value + pin.value + chapChallenge.value)
   window.location.href = `${linkLoginOnly.value}?username=${pin.value}&password=${passMd5}&dst=${linkOrig.value}&popup=false`
 }
 </script>
