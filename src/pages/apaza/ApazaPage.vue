@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import BackgroundImg2 from '@/assets/img/fondo_lite.jpeg'
-import Logo from '@/assets/img/air.png'
-import LoginCard from './LoginCard.vue'
-import Toast from './Toast.vue'
+import BackgroundImg2 from '../../assets/img/fondo_lite.jpeg'
+import Logo from '../../assets/img/air.png'
+import LoginCard from './components/LoginCard.vue'
+import Toast from './components/Toast.vue'
 import { ref, onMounted, computed } from 'vue'
 import { themes, logoFilters, overlayColors } from './themes'
-import useRouterOsData from '@/composables/router-os-data.ts'
+import useRouterOsData from '../../composables/router-os-data.ts'
 
 const pin = ref('')
 const isLoading = ref(false)

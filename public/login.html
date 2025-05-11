@@ -1,42 +1,42 @@
 <html>
 
 <head>
-  <!-- <meta http-equiv="refresh"
+    <!-- <meta http-equiv="refresh"
     content="0; url=/index.html?chap-id=$(chap-id)&chap-secret=$(chap-secret)&ip=$(ip)&chap-challenge=$(chap-challenge)&link-login-only=$(link-login-only)&link-orig=$(link-orig)"> -->
-  <meta http-equiv="pragma" content="no-cache">
-  <meta http-equiv="expires" content="-1">
-  <script>
-    // preparamos los datos de RouterOS
-    const dataRouterOS = {
-      chapId: '$(chap-id)',
-      chapSecret: '$(chap-secret)',
-      ip: '$(ip)',
-      chapChallenge: '$(chap-challenge)',
-      linkLoginOnly: '$(link-login-only)',
-      linkOrig: '$(link-orig)',
-      // Datos adicionales del Hotspot RouterOS
-      mac: '$(mac)',
-      username: '$(username)',
-      domain: '$(domain)',
-      server: '$(server-name)',
-      serverAddress: '$(server-address)',
-      trial: '$(trial)',
-      uptime: '$(uptime)',
-      sessionTime: '$(session-time-left)',
-      remainingBytes: '$(bytes-in-nice)',
-      bytesSent: '$(bytes-out-nice)',
-      bytesReceived: '$(bytes-in-nice)',
-      loginBy: '$(login-by)',
-      identity: '$(identity)',
-      error: '$(error)',
-      macIdent: '$(mac-ident)',
-      hostIdent: '$(host-ident)'
-    }
-    // guardamos los datos en localStorage
-    localStorage.setItem('routerOSData', JSON.stringify(dataRouterOS))
-    // redireccionamos a index.html sin parámetros
-    window.location.href = '/index.html'
-  </script>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="-1">
+    <script>
+        // preparamos los datos de RouterOS
+        const dataRouterOS = {
+            chapId: '$(chap-id)',
+            chapSecret: '$(chap-secret)',
+            ip: '$(ip)',
+            chapChallenge: '$(chap-challenge)',
+            linkLoginOnly: '$(link-login-only)',
+            linkOrig: '$(link-orig)',
+            // Datos adicionales del Hotspot RouterOS
+            mac: '$(mac)',
+            username: '$(username)',
+            domain: '$(domain)',
+            server: '$(server-name)',
+            serverAddress: '$(server-address)',
+            trial: '$(trial)',
+            uptime: '$(uptime)',
+            sessionTime: '$(session-time-left)',
+            remainingBytes: '$(bytes-in-nice)',
+            bytesSent: '$(bytes-out-nice)',
+            bytesReceived: '$(bytes-in-nice)',
+            loginBy: '$(login-by)',
+            identity: '$(identity)',
+            error: '$(error)',
+            macIdent: '$(mac-ident)',
+            hostIdent: '$(host-ident)'
+        }
+        // guardamos los datos en localStorage
+        localStorage.setItem('routerOSData', JSON.stringify(dataRouterOS))
+        // redireccionamos a index.html sin parámetros
+        window.location.href = '/index.html'
+    </script>
 </head>
 
 </html>

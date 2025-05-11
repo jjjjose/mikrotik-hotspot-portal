@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ThemeKey, type ThemeProperties } from './themes.ts'
+import type { ThemeKey, ThemeProperties } from '../themes.ts'
 import { ref } from 'vue'
-import { hexMD5 } from '@/utils/md5.ts'
-import useRouterOsData from '@/composables/router-os-data.ts'
+import { hexMD5 } from '../../../utils/md5.ts'
+import useRouterOsData from '../../../composables/router-os-data.ts'
 
 defineProps<{
   theme: ThemeProperties
