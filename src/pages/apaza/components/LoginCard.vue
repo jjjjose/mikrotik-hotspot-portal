@@ -30,12 +30,12 @@ const connect = async () => {
   loading.value = true
   await new Promise((resolve) => setTimeout(resolve, 1000))
 
-  let password = pin.value
+  let password = ''
 
   // Only use CHAP authentication if chapId is provided
   if (chapId.value) {
     // Generate MD5 hash based on MikroTik's CHAP authentication
-    password = hexMD5(chapId.value + pin.value + chapChallenge.value)
+    password = hexMD5(chapId.value + '' + chapChallenge.value)
   }
 
   // Redirect to login URL with appropriate credentials
@@ -421,8 +421,7 @@ button:not(:disabled):hover::after {
 
 .contact-card:hover {
   transform: translateY(-2px);
-  box-shadow:
-    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
@@ -449,9 +448,7 @@ button:not(:disabled):hover::after {
   width: 80%;
   background: linear-gradient(to right, transparent, currentColor, transparent);
   opacity: 0;
-  transition:
-    transform 0.3s ease,
-    opacity 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .pin-input:focus + .pin-input-highlight {
