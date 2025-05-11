@@ -100,7 +100,7 @@ defineEmits<{
 /* Toast animation styles */
 @keyframes slideInFromTop {
   from {
-    transform: translate(-50%, -20px);
+    transform: translate(-50%, -100%);
     opacity: 0;
   }
   to {
@@ -116,7 +116,7 @@ defineEmits<{
   }
   to {
     opacity: 0;
-    transform: translate(-50%, -10px);
+    transform: translate(-50%, -100%);
   }
 }
 
@@ -127,6 +127,8 @@ defineEmits<{
   transition:
     opacity 0.5s ease,
     transform 0.5s ease;
+  max-width: 90%;
+  margin: 0 auto;
 }
 
 .toast-notification.v-leave-active {
