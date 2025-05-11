@@ -248,10 +248,17 @@ onMounted(() => {
   animation: particle-float calc(20s + (var(--duration, 1) * 10s)) linear
     infinite;
   animation-delay: calc(var(--delay, 0) * -5s);
-  /* Trayectoria y rotación variables */
+  z-index: 1;
+  /* All variables with defaults */
+  --x-pos: 50;
+  --duration: 1;
+  --delay: 0;
   --x-offset: 0;
   --rotation: 0;
+  --size: 8px;
   --opacity: 0.3;
+  /* Add filter for glow effect */
+  filter: blur(0.5px);
 }
 
 .theme-selector-container {
