@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ThemeKey, type ThemeProperties } from './themes.ts'
-import { onMounted, ref } from 'vue'
-// @ts-ignore
-import { hexMD5 } from '@/utils/md5'
+import { ref } from 'vue'
+import { hexMD5 } from '@/utils/md5.ts'
 import useRouterOsData from '@/composables/router-os-data.ts'
 
 defineProps<{
@@ -18,8 +17,7 @@ defineProps<{
 
 const pin = ref('')
 
-const { chapId, chapChallenge, linkLoginOnly, linkOrig } =
-  useRouterOsData()
+const { chapId, chapChallenge, linkLoginOnly, linkOrig } = useRouterOsData()
 
 const connect = async () => {
   // Generate MD5 hash properly based on MikroTik's CHAP authentication
