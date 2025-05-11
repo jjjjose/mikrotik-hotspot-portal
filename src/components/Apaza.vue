@@ -2,13 +2,20 @@
 import BackgroundImg2 from '@/assets/img/fondo_lite.jpeg'
 import Logo from '@/assets/img/air.png'
 import LoginCard from './LoginCard.vue'
+import Toast from './Toast.vue'
 import { ref, onMounted, computed } from 'vue'
 import { themes, logoFilters, overlayColors } from './themes'
+import useRouterOsData from '@/composables/router-os-data.ts'
 
 const pin = ref('')
 const isLoading = ref(false)
 const isVisible = ref(false)
 const showSuccess = ref(false)
+
+// Toast state
+const showToast = ref(false)
+const toastMessage = ref('')
+const toastType = ref<'error' | 'success' | 'info' | 'warning'>('error')
 
 const currentTheme = ref('teal')
 const theme = computed(() => themes[currentTheme.value])
@@ -44,6 +51,8 @@ const glowStyle = computed(
     `background: radial-gradient(circle, ${theme.value.glow} 0%, rgba(59, 130, 246, 0) 70%);`,
 )
 
+const { error } = useRouterOsData()
+
 const connect = (pinValue: string) => {
   pin.value = pinValue
   if (!pin.value) return
@@ -55,6 +64,10 @@ const connect = (pinValue: string) => {
       // Aquí iría la lógica real de conexión
     }, 800)
   }, 1500)
+}
+
+const closeToast = () => {
+  showToast.value = false
 }
 
 // Generar partículas aleatorias
@@ -94,6 +107,17 @@ onMounted(() => {
     '--bg-overlay-color',
     overlayColors[currentTheme.value],
   )
+
+  // Check for error from RouterOS data
+  if (error?.value) {
+    toastMessage.value = error.value
+    showToast.value = true
+
+    // Auto-hide toast after 5 seconds
+    setTimeout(() => {
+      showToast.value = false
+    }, 5000)
+  }
 })
 </script>
 
@@ -104,43 +128,51 @@ onMounted(() => {
     :style="bgStyle"
   >
     <!-- Selector de tema con nombre visible -->
-<!--    <div-->
-<!--      class="theme-selector-container absolute top-4 right-4 z-10 flex flex-col items-end"-->
-<!--    >-->
-<!--      <div class="theme-selector flex space-x-2">-->
-<!--        <button-->
-<!--          v-for="(colors, themeName) in themeColors"-->
-<!--          :key="themeName"-->
-<!--          @click="changeTheme(themeName)"-->
-<!--          class="theme-btn relative"-->
-<!--          :class="-->
-<!--            currentTheme === themeName-->
-<!--              ? 'ring-2 ring-white ring-offset-2 ring-offset-black/20 scale-110 z-10'-->
-<!--              : ''-->
-<!--          "-->
-<!--          :style="`background: linear-gradient(to right, ${colors.start}, ${colors.end});`"-->
-<!--          aria-label="Cambiar tema"-->
-<!--        >-->
-<!--          <span-->
-<!--            v-if="currentTheme === themeName"-->
-<!--            class="absolute inset-0 flex items-center justify-center"-->
-<!--          >-->
-<!--            <svg-->
-<!--              xmlns="http://www.w3.org/2000/svg"-->
-<!--              class="h-4 w-4 text-white drop-shadow-md"-->
-<!--              viewBox="0 0 20 20"-->
-<!--              fill="currentColor"-->
-<!--            >-->
-<!--              <path-->
-<!--                fill-rule="evenodd"-->
-<!--                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"-->
-<!--                clip-rule="evenodd"-->
-<!--              />-->
-<!--            </svg>-->
-<!--          </span>-->
-<!--        </button>-->
-<!--      </div>-->
-<!--    </div>-->
+    <!--    <div-->
+    <!--      class="theme-selector-container absolute top-4 right-4 z-10 flex flex-col items-end"-->
+    <!--    >-->
+    <!--      <div class="theme-selector flex space-x-2">-->
+    <!--        <button-->
+    <!--          v-for="(colors, themeName) in themeColors"-->
+    <!--          :key="themeName"-->
+    <!--          @click="changeTheme(themeName)"-->
+    <!--          class="theme-btn relative"-->
+    <!--          :class="-->
+    <!--            currentTheme === themeName-->
+    <!--              ? 'ring-2 ring-white ring-offset-2 ring-offset-black/20 scale-110 z-10'-->
+    <!--              : ''-->
+    <!--          "-->
+    <!--          :style="`background: linear-gradient(to right, ${colors.start}, ${colors.end});`"-->
+    <!--          aria-label="Cambiar tema"-->
+    <!--        >-->
+    <!--          <span-->
+    <!--            v-if="currentTheme === themeName"-->
+    <!--            class="absolute inset-0 flex items-center justify-center"-->
+    <!--          >-->
+    <!--            <svg-->
+    <!--              xmlns="http://www.w3.org/2000/svg"-->
+    <!--              class="h-4 w-4 text-white drop-shadow-md"-->
+    <!--              viewBox="0 0 20 20"-->
+    <!--              fill="currentColor"-->
+    <!--            >-->
+    <!--              <path-->
+    <!--                fill-rule="evenodd"-->
+    <!--                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"-->
+    <!--                clip-rule="evenodd"-->
+    <!--              />-->
+    <!--            </svg>-->
+    <!--          </span>-->
+    <!--        </button>-->
+    <!--      </div>-->
+    <!--    </div>-->
+
+    <!-- Toast Component -->
+    <Toast
+      :message="toastMessage"
+      :type="toastType"
+      :is-visible="showToast"
+      @close="closeToast"
+    />
 
     <!-- Partículas decorativas animadas -->
     <div class="particles-container">
@@ -185,7 +217,8 @@ onMounted(() => {
     opacity: var(--opacity, 0.3);
   }
   100% {
-    transform: translateY(-100vh) translateX(calc(var(--x-offset, 0) * 50px)) rotate(calc(var(--rotation, 0) * 360deg));
+    transform: translateY(-100vh) translateX(calc(var(--x-offset, 0) * 50px))
+      rotate(calc(var(--rotation, 0) * 360deg));
     opacity: 0;
   }
 }
@@ -211,7 +244,8 @@ onMounted(() => {
   background-color: rgba(255, 255, 255, 0.5);
   box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
   opacity: 0;
-  animation: particle-float calc(20s + (var(--duration, 1) * 10s)) linear infinite;
+  animation: particle-float calc(20s + (var(--duration, 1) * 10s)) linear
+    infinite;
   animation-delay: calc(var(--delay, 0) * -5s);
   /* Trayectoria y rotación variables */
   --x-offset: 0;
