@@ -23,23 +23,23 @@ const theme = computed(() => themes[currentTheme.value])
 const logoFilterStyle = computed(
   () => logoFilters[currentTheme.value] || logoFilters.blue,
 )
+const showChangeTheme = ref(false)
+const changeTheme = (newTheme: string) => {
+  currentTheme.value = newTheme
+  document.documentElement.style.setProperty(
+    '--bg-overlay-color',
+    overlayColors[newTheme],
+  )
+}
 
-// const changeTheme = (newTheme: string) => {
-//   currentTheme.value = newTheme
-//   document.documentElement.style.setProperty(
-//     '--bg-overlay-color',
-//     overlayColors[newTheme],
-//   )
-// }
-//
-// const themeColors = {
-//   blue: { start: '#3b82f6', end: '#1d4ed8' },
-//   purple: { start: '#a855f7', end: '#6366f1' },
-//   teal: { start: '#14b8a6', end: '#059669' },
-//   amber: { start: '#f97316', end: '#b45309' },
-//   green: { start: '#22c55e', end: '#166534' },
-//   pink: { start: '#ec4899', end: '#a21caf' },
-// }
+const themeColors = {
+  blue: { start: '#3b82f6', end: '#1d4ed8' },
+  purple: { start: '#a855f7', end: '#6366f1' },
+  teal: { start: '#14b8a6', end: '#059669' },
+  amber: { start: '#f97316', end: '#b45309' },
+  green: { start: '#22c55e', end: '#166534' },
+  pink: { start: '#ec4899', end: '#a21caf' },
+}
 
 const bgStyle = computed(
   () =>
@@ -128,43 +128,44 @@ onMounted(() => {
     :style="bgStyle"
   >
     <!-- Selector de tema con nombre visible -->
-    <!--    <div-->
-    <!--      class="theme-selector-container absolute top-4 right-4 z-10 flex flex-col items-end"-->
-    <!--    >-->
-    <!--      <div class="theme-selector flex space-x-2">-->
-    <!--        <button-->
-    <!--          v-for="(colors, themeName) in themeColors"-->
-    <!--          :key="themeName"-->
-    <!--          @click="changeTheme(themeName)"-->
-    <!--          class="theme-btn relative"-->
-    <!--          :class="-->
-    <!--            currentTheme === themeName-->
-    <!--              ? 'ring-2 ring-white ring-offset-2 ring-offset-black/20 scale-110 z-10'-->
-    <!--              : ''-->
-    <!--          "-->
-    <!--          :style="`background: linear-gradient(to right, ${colors.start}, ${colors.end});`"-->
-    <!--          aria-label="Cambiar tema"-->
-    <!--        >-->
-    <!--          <span-->
-    <!--            v-if="currentTheme === themeName"-->
-    <!--            class="absolute inset-0 flex items-center justify-center"-->
-    <!--          >-->
-    <!--            <svg-->
-    <!--              xmlns="http://www.w3.org/2000/svg"-->
-    <!--              class="h-4 w-4 text-white drop-shadow-md"-->
-    <!--              viewBox="0 0 20 20"-->
-    <!--              fill="currentColor"-->
-    <!--            >-->
-    <!--              <path-->
-    <!--                fill-rule="evenodd"-->
-    <!--                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"-->
-    <!--                clip-rule="evenodd"-->
-    <!--              />-->
-    <!--            </svg>-->
-    <!--          </span>-->
-    <!--        </button>-->
-    <!--      </div>-->
-    <!--    </div>-->
+    <div
+      v-if="showChangeTheme"
+      class="theme-selector-container absolute top-4 right-4 z-10 flex flex-col items-end"
+    >
+      <div class="theme-selector flex space-x-2">
+        <button
+          v-for="(colors, themeName) in themeColors"
+          :key="themeName"
+          @click="changeTheme(themeName)"
+          class="theme-btn relative"
+          :class="
+            currentTheme === themeName
+              ? 'ring-2 ring-white ring-offset-2 ring-offset-black/20 scale-110 z-10'
+              : ''
+          "
+          :style="`background: linear-gradient(to right, ${colors.start}, ${colors.end});`"
+          aria-label="Cambiar tema"
+        >
+          <span
+            v-if="currentTheme === themeName"
+            class="absolute inset-0 flex items-center justify-center"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4 text-white drop-shadow-md"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </span>
+        </button>
+      </div>
+    </div>
 
     <!-- Toast Component -->
     <Toast
