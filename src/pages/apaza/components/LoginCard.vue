@@ -282,6 +282,7 @@ const connect = async () => {
 .glow-effect {
   animation: pulse-subtle 3s infinite ease-in-out;
 }
+
 .glow-effect {
   animation-duration: 4s;
   opacity: 0.7;
@@ -291,6 +292,7 @@ const connect = async () => {
 .button-animated {
   transition: transform 0.3s ease;
 }
+
 .hover-float:hover {
   animation: float 3s infinite ease-in-out;
 }
@@ -304,6 +306,7 @@ form {
   background-size: 200% 200%;
   animation: shine 3s linear infinite;
 }
+
 .animate-text {
   background-size: 200% auto;
   animation-duration: 5s;
@@ -324,6 +327,7 @@ form {
   transform-origin: bottom;
   position: relative;
 }
+
 .wifi-bar::before {
   content: '';
   position: absolute;
@@ -334,12 +338,15 @@ form {
   animation: wifi-pulse 1.5s infinite ease-in-out;
   animation-delay: calc(var(--bar-index) * 0.2s);
 }
+
 .wifi-bar:nth-child(1)::before {
   --bar-index: 0;
 }
+
 .wifi-bar:nth-child(2)::before {
   --bar-index: 1;
 }
+
 .wifi-bar:nth-child(3)::before {
   --bar-index: 2;
 }
@@ -353,6 +360,7 @@ form {
   position: relative;
   overflow: hidden;
 }
+
 .input-shine:focus::after {
   content: '';
   position: absolute;
@@ -377,6 +385,7 @@ button:disabled {
   opacity: 0.7;
   cursor: not-allowed;
 }
+
 button:not(:disabled):hover::after {
   content: '';
   position: absolute;
@@ -405,7 +414,8 @@ button:not(:disabled):hover::after {
 
 .contact-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
@@ -432,7 +442,9 @@ button:not(:disabled):hover::after {
   width: 80%;
   background: linear-gradient(to right, transparent, currentColor, transparent);
   opacity: 0;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .pin-input:focus + .pin-input-highlight {

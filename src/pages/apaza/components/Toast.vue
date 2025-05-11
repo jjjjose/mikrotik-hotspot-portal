@@ -124,7 +124,9 @@ defineEmits<{
   animation: slideInFromTop 0.5s ease forwards;
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
 }
 
 .toast-notification.v-leave-active {
