@@ -45,7 +45,7 @@ const connect = async () => {
 
 <template>
   <div
-    class="w-full max-w-xs flex flex-col items-center bg-white/85 rounded-2xl p-6 shadow-2xl backdrop-blur-lg relative overflow-hidden transition-all duration-500 transform"
+    class="w-full max-w-xs flex flex-col items-center bg-white/85 rounded-2xl p-4 shadow-2xl backdrop-blur-lg relative overflow-hidden transition-all duration-500 transform"
     :class="isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'"
   >
     <!-- Decoración superior -->
@@ -54,11 +54,11 @@ const connect = async () => {
       :class="theme.secondary"
     ></div>
 
-    <div class="w-full flex justify-center relative glow-container -mt-2">
+    <div class="w-full flex justify-center relative glow-container -mt-1">
       <img
         :src="logo"
         alt="Logo"
-        class="w-32 h-32 object-scale-down filter drop-shadow-lg hover-float"
+        class="w-24 h-24 object-scale-down filter drop-shadow-lg hover-float"
         :style="`filter: ${logoFilterStyle}`"
       />
       <!-- Efecto de resplandor detrás del logo -->
@@ -66,18 +66,18 @@ const connect = async () => {
     </div>
 
     <h1
-      class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r mb-0 -mt-4 tracking-wide drop-shadow-md animate-text"
+      class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r mb-0 -mt-3 tracking-wide drop-shadow-md animate-text"
       :class="theme.accent"
     >
       AirConexion
     </h1>
     <p
-      :class="`${theme.text} mb-5 text-center text-xs type-animation font-medium`"
+      :class="`${theme.text} mb-3 text-center text-xs type-animation font-medium`"
     >
       Internet Inalámbrico
     </p>
 
-    <form @submit.prevent="connect" class="w-full space-y-4">
+    <form @submit.prevent="connect" class="w-full space-y-3">
       <div
         class="relative transform transition-all duration-300 hover:scale-102"
       >
@@ -85,7 +85,7 @@ const connect = async () => {
           id="pin"
           v-model="pin"
           placeholder="Ingrese su PIN"
-          class="w-full px-4 py-3.5 rounded-lg border-2 shadow-inner transition text-center text-xl tracking-widest input-shine bg-white/90 text-gray-900 placeholder-gray-400"
+          class="w-full px-3 py-2.5 rounded-lg border-2 shadow-inner transition text-center text-lg tracking-widest input-shine bg-white/90 text-gray-900 placeholder-gray-400"
           :class="`${theme.border} ${theme.focus} pin-input`"
           required
           autocomplete="off"
@@ -95,7 +95,7 @@ const connect = async () => {
 
       <button
         type="submit"
-        class="w-full bg-gradient-to-r text-white font-medium py-3.5 px-4 rounded-lg transition duration-300 shadow-lg hover:shadow-xl flex items-center justify-center mt-5 overflow-hidden relative button-animated"
+        class="w-full bg-gradient-to-r text-white font-medium py-2.5 px-3 rounded-lg transition duration-300 shadow-lg hover:shadow-xl flex items-center justify-center mt-3 overflow-hidden relative button-animated"
         :class="showSuccess ? 'from-emerald-500 to-emerald-700' : theme.button"
         :disabled="loading || showSuccess"
       >
@@ -106,7 +106,7 @@ const connect = async () => {
         <span v-else-if="showSuccess" class="flex items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5 mr-2"
+            class="h-4 w-4 mr-1"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -124,7 +124,7 @@ const connect = async () => {
           Conectar
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5 ml-2 animate-bounce-x"
+            class="h-4 w-4 ml-1 animate-bounce-x"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -142,13 +142,13 @@ const connect = async () => {
 
     <!-- Área de contacto/publicidad -->
     <div
-      class="w-full mt-4 px-3 py-3 rounded-lg border text-center text-xs font-medium shadow-md contact-card"
+      class="w-full mt-3 px-2 py-2 rounded-lg border text-center text-xs font-medium shadow-md contact-card"
       :class="`${theme.text} ${theme.border}`"
     >
-      <div class="flex items-center justify-center gap-2">
+      <div class="flex items-center justify-center gap-1">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-4 w-4"
+          class="h-3 w-3"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -166,7 +166,7 @@ const connect = async () => {
     </div>
 
     <div
-      class="mt-4 text-center text-xs text-gray-600 border-t border-gray-100/30 pt-3 w-full"
+      class="mt-2 text-center text-[10px] text-gray-600 border-t border-gray-100/30 pt-2 w-full"
     >
       <p>
         Al conectarte aceptas nuestros
@@ -176,16 +176,25 @@ const connect = async () => {
           >Términos y Condiciones</a
         >
       </p>
-      <div class="flex items-center justify-center mt-2">
-        <p class="text-gray-400 text-[11px]">Diseñado por Nelink</p>
+      <div class="flex items-center justify-center mt-3">
+        <p class="text-gray-400 text-[9px] font-semibold">
+          Sistema y diseño desarrollado por
+          <span class="text-blue-500 font-bold">Nelink</span>
+        </p>
       </div>
     </div>
 
     <!-- Indicador de señal WiFi con animación -->
-    <div class="absolute bottom-2 right-2 flex space-x-1">
-      <div :class="`w-1 h-3 ${theme.progressBar[0]} rounded-sm wifi-bar`"></div>
-      <div :class="`w-1 h-5 ${theme.progressBar[1]} rounded-sm wifi-bar`"></div>
-      <div :class="`w-1 h-7 ${theme.progressBar[2]} rounded-sm wifi-bar`"></div>
+    <div class="absolute bottom-2 right-2 flex space-x-0.5">
+      <div
+        :class="`w-0.5 h-2 ${theme.progressBar[0]} rounded-sm wifi-bar`"
+      ></div>
+      <div
+        :class="`w-0.5 h-3.5 ${theme.progressBar[1]} rounded-sm wifi-bar`"
+      ></div>
+      <div
+        :class="`w-0.5 h-5 ${theme.progressBar[2]} rounded-sm wifi-bar`"
+      ></div>
     </div>
   </div>
 </template>
