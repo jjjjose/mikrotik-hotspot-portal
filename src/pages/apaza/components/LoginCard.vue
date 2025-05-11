@@ -74,7 +74,7 @@ const connect = async () => {
     <p
       :class="`${theme.text} mb-5 text-center text-xs type-animation font-medium`"
     >
-      Internet Inalámbrico de alta velocidad
+      Internet Inalámbrico
     </p>
 
     <form @submit.prevent="connect" class="w-full space-y-4">

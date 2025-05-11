@@ -200,30 +200,40 @@ onMounted(() => {
     </div>
 
     <!-- Full screen loader overlay when connecting -->
-    <transition name="fade">
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center"
+      :class="{ 'loader-visible': isLoading, 'loader-hidden': !isLoading }"
+    >
       <div
-        v-if="isLoading"
-        class="fixed inset-0 z-50 flex items-center justify-center"
+        class="absolute inset-0 bg-black/40 backdrop-blur-md transition-opacity"
+        :class="{ 'opacity-100': isLoading, 'opacity-0': !isLoading }"
+        @click.prevent
+      ></div>
+      <div
+        class="loader-card relative z-10 text-center p-8 rounded-2xl bg-white/15 backdrop-blur-lg border border-white/20 shadow-xl transform transition-all duration-500"
+        :class="{
+          'translate-y-0 scale-100 opacity-100': isLoading,
+          'translate-y-8 scale-95 opacity-0': !isLoading,
+        }"
+        :style="`box-shadow: 0 0 40px rgba(0,0,0,0.2), 0 0 20px ${theme.primary}40;`"
       >
-        <div
-          class="absolute inset-0 bg-black/50 backdrop-blur-sm"
-          @click.prevent
-        ></div>
-        <div
-          class="loader-card relative z-10 text-center p-8 rounded-2xl bg-white/10 backdrop-blur-md"
-        >
+        <div class="relative">
           <Loader
             :type="'dots'"
             :size="'large'"
             :color="theme.primary"
-            class="mb-4"
+            class="mb-6"
           />
-          <p class="text-white font-medium text-xl animate-pulse">
-            Conectando a la red...
-          </p>
+          <div
+            class="pulse-circle absolute"
+            :style="`background: ${theme.primary}20;`"
+          ></div>
         </div>
+        <p class="text-white font-medium text-xl">
+          Conectando a la red<span class="loading-dots"></span>
+        </p>
       </div>
-    </transition>
+    </div>
 
     <LoginCard
       :theme="theme"
@@ -381,28 +391,75 @@ onMounted(() => {
 }
 
 /* Improved loader overlay transitions */
-.fade-enter-active,
-.fade-leave-active {
-  transition:
-    opacity 0.4s ease,
-    transform 0.4s ease;
+.loader-visible {
+  pointer-events: auto;
+  visibility: visible;
 }
 
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
+.loader-hidden {
+  pointer-events: none;
+  visibility: hidden;
+  /* Using visibility keeps the blur loaded but hidden */
+  transition: visibility 0s linear 0.5s;
 }
 
-.fade-enter-from .loader-card {
-  transform: scale(0.9);
+.loader-visible .backdrop-blur-md {
+  transition-delay: 0s !important;
 }
 
-.fade-leave-to .loader-card {
-  transform: scale(0.95);
+.loader-hidden .backdrop-blur-md {
+  transition-delay: 0s;
 }
 
 .loader-card {
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes pulse-circle {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+}
+
+.pulse-circle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse-circle 2s ease-in-out infinite;
+  z-index: -1;
+  filter: blur(10px);
+}
+
+@keyframes loading-dots {
+  0%,
+  20% {
+    content: '.';
+  }
+  40%,
+  60% {
+    content: '..';
+  }
+  80%,
+  100% {
+    content: '...';
+  }
+}
+
+.loading-dots::after {
+  content: '';
+  animation: loading-dots 1.5s infinite steps(1);
 }
 </style>
