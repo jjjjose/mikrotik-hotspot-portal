@@ -19,7 +19,7 @@ const isVisible = ref(false)
 const showSuccess = ref(false)
 
 // Toast state
-const showToast = ref(true)
+const showToast = ref(false)
 const toastMessage = ref('Este es un mensaje de prueba para el Toast')
 const toastType = ref<'error' | 'success' | 'info' | 'warning'>('error')
 
