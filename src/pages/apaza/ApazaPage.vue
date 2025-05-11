@@ -3,8 +3,14 @@ import BackgroundImg2 from '../../assets/img/fondo_lite.jpeg'
 import Logo from '../../assets/img/air.png'
 import LoginCard from './components/LoginCard.vue'
 import Toast from './components/Toast.vue'
+import Loader from './components/Loader.vue'
 import { ref, onMounted, computed } from 'vue'
-import { themes, logoFilters, overlayColors } from './themes'
+import {
+  themes,
+  logoFilters,
+  overlayColors,
+  type ThemeProperties,
+} from './themes'
 import useRouterOsData from '../../composables/router-os-data.ts'
 
 const pin = ref('')
@@ -18,7 +24,7 @@ const toastMessage = ref('')
 const toastType = ref<'error' | 'success' | 'info' | 'warning'>('error')
 
 const currentTheme = ref('teal')
-const theme = computed(() => themes[currentTheme.value])
+const theme = computed<ThemeProperties>(() => themes[currentTheme.value])
 
 const logoFilterStyle = computed(
   () => logoFilters[currentTheme.value] || logoFilters.blue,
@@ -193,6 +199,32 @@ onMounted(() => {
       ></div>
     </div>
 
+    <!-- Full screen loader overlay when connecting -->
+    <transition name="fade">
+      <div
+        v-if="isLoading"
+        class="fixed inset-0 z-50 flex items-center justify-center"
+      >
+        <div
+          class="absolute inset-0 bg-black/50 backdrop-blur-sm"
+          @click.prevent
+        ></div>
+        <div
+          class="loader-card relative z-10 text-center p-8 rounded-2xl bg-white/10 backdrop-blur-md"
+        >
+          <Loader
+            :type="'dots'"
+            :size="'large'"
+            :color="theme.primary"
+            class="mb-4"
+          />
+          <p class="text-white font-medium text-xl animate-pulse">
+            Conectando a la red...
+          </p>
+        </div>
+      </div>
+    </transition>
+
     <LoginCard
       :theme="theme"
       :logo="Logo"
@@ -200,9 +232,9 @@ onMounted(() => {
       :glow-style="glowStyle"
       :is-visible="isVisible"
       :show-success="showSuccess"
-      :is-loading="isLoading"
       :current-theme-name="currentTheme"
       @connect="connect"
+      v-model:is-loading="isLoading"
     />
   </div>
 </template>
@@ -327,5 +359,50 @@ onMounted(() => {
     margin-bottom: 0;
     margin-top: 0.5rem;
   }
+}
+
+/* Add new styles for the loader overlay */
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Improved loader overlay transitions */
+.fade-enter-active,
+.fade-leave-active {
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-from .loader-card {
+  transform: scale(0.9);
+}
+
+.fade-leave-to .loader-card {
+  transform: scale(0.95);
+}
+
+.loader-card {
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }
 </style>

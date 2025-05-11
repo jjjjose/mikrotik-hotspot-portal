@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import type { ThemeKey, ThemeProperties } from '../themes.ts'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { hexMD5 } from '../../../utils/md5.ts'
 import useRouterOsData from '../../../composables/router-os-data.ts'
+import Loader from './Loader.vue'
 
-defineProps<{
+const props = defineProps<{
   theme: ThemeProperties
   logo: string
   logoFilterStyle: string
@@ -15,11 +16,20 @@ defineProps<{
   currentThemeName: ThemeKey
 }>()
 
+const emit = defineEmits(['update:isLoading'])
+const loading = computed({
+  get: () => props.isLoading,
+  set: (value) => emit('update:isLoading', value),
+})
+
 const pin = ref('')
 
 const { chapId, chapChallenge, linkLoginOnly, linkOrig } = useRouterOsData()
 
 const connect = async () => {
+  loading.value = true
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+
   let password = pin.value
 
   // Only use CHAP authentication if chapId is provided
@@ -87,29 +97,10 @@ const connect = async () => {
         type="submit"
         class="w-full bg-gradient-to-r text-white font-medium py-3.5 px-4 rounded-lg transition duration-300 shadow-lg hover:shadow-xl flex items-center justify-center mt-5 overflow-hidden relative button-animated"
         :class="showSuccess ? 'from-emerald-500 to-emerald-700' : theme.button"
-        :disabled="isLoading || showSuccess"
+        :disabled="loading || showSuccess"
       >
-        <span v-if="isLoading" class="flex items-center">
-          <svg
-            class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <circle
-              class="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              stroke-width="4"
-            ></circle>
-            <path
-              class="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            ></path>
-          </svg>
+        <span v-if="loading" class="flex items-center">
+          <Loader type="spinner" size="small" class="-ml-1 mr-2 h-4 w-4" />
           Conectando...
         </span>
         <span v-else-if="showSuccess" class="flex items-center">
